@@ -1,0 +1,37 @@
+services:
+  - type: web
+    name: jobportal-api
+    runtime: node
+    plan: starter
+    rootDir: Backend
+    buildCommand: npm install
+    startCommand: npm start
+    disk:
+      name: uploads
+      mountPath: /opt/render/project/src/Backend/uploads
+      sizeGB: 1
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGO_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CLIENT_URL
+        sync: false
+      - key: CLOUD_NAME
+        sync: false
+      - key: CLOUD_API
+        sync: false
+      - key: API_SECRET
+        sync: false
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        sync: false
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: SMTP_FROM
+        sync: false

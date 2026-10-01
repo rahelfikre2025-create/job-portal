@@ -147,30 +147,6 @@ export const login = async (req, res) => {
             });
         }
 
-        // Special fixed admin login (legacy): allow admin to login with fixed credentials
-        const normalized = (email || '').toString().trim().toLowerCase();
-        const isAdminEmail =
-            normalized === 'rahelfikre2025' ||
-            normalized === 'rahelfikre2025@gmail.com' ||
-            normalized.startsWith('rahelfikre2025@') ||
-            normalized.startsWith('rahelfikre2025');
-
-        if (isAdminEmail && password === '4991') {
-            const tokenData = { isAdminToken: true, role: 'Administrator' };
-            const token = jwt.sign(tokenData, process.env.JWT_SECRET, { expiresIn: '1d' });
-            const adminUser = { _id: 'admin', fullname: 'Administrator', email: 'rahelfikre2025', role: 'Administrator', profile: {} };
-            const cookieOptions = {
-                maxAge: 24 * 60 * 60 * 1000,
-                httpOnly: true,
-                sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
-                secure: process.env.NODE_ENV === 'production',
-            };
-            return res
-                .status(200)
-                .cookie('token', token, cookieOptions)
-                .json({ message: 'Admin logged in', user: adminUser, token, success: true });
-        }
-
         const user = await User.findOne({ email });
         if (!user) {
             return res.status(404).json({

@@ -11,15 +11,7 @@ const isAdmin = async (req, res, next) => {
     }
     if (!token) return res.status(401).json({ message: 'No token provided', success: false });
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    // Special admin token (issued for fixed admin credentials) may include `isAdminToken` flag
-    if (decoded && (decoded.isAdminToken || decoded.role === 'Administrator')) {
-      req.isAdmin = true;
-      // if a userId exists, attach it
-      if (decoded.userId) req.id = decoded.userId;
-      return next();
-    }
-
-    // Otherwise, fetch the user and verify role
+    // Admin access must always be backed by a current database account and role.
     if (!decoded || !decoded.userId) return res.status(403).json({ message: 'Forbidden', success: false });
     const user = await User.findById(decoded.userId);
     if (!user) return res.status(404).json({ message: 'User not found', success: false });

@@ -20,13 +20,22 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// Permissive CORS to support multiple frontends (Netlify, local dev, etc.)
+// Credentialed CORS must use explicit origins rather than reflecting every site.
+const allowedOrigins = (process.env.CLIENT_URL || "")
+  .split(",")
+  .map((origin) => origin.trim().replace(/\/+$/, ""))
+  .filter(Boolean);
+
+if (process.env.NODE_ENV !== "production") {
+  allowedOrigins.push("http://localhost:5173");
+}
+
 app.use(
   cors({
     origin: (origin, callback) => {
-      // allow requests with no origin (like curl or mobile apps)
       if (!origin) return callback(null, true);
-      return callback(null, true); // reflect the requesting origin
+      if (allowedOrigins.includes(origin)) return callback(null, true);
+      return callback(new Error("Origin is not allowed by CORS"));
     },
     credentials: true,
     optionsSuccessStatus: 200,
