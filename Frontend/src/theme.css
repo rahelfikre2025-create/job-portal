@@ -1,0 +1,119 @@
+/* Theme variables and global styles to improve default appearance */
+:root{
+  --bg-start: #0f172a; /* slate-900 */
+  --bg-end: #0b1220;   /* darker */
+  --card-bg: rgba(255,255,255,0.04);
+  --glass-bg: rgba(255,255,255,0.06);
+  --muted: rgba(255,255,255,0.7);
+  --accent: #ffd166; /* warm accent */
+  --accent-2: #06b6d4; /* teal accent */
+  --radius: 12px;
+  --shadow-1: 0 6px 18px rgba(2,6,23,0.6);
+  --glass-border: rgba(255,255,255,0.06);
+}
+
+/* Minimal reset to keep Tailwind utilities working but improve base */
+html,body,#root{
+  height:100%;
+}
+body{
+  margin:0;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: linear-gradient(135deg,var(--bg-start), var(--bg-end));
+  color: #e6eef8;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.45;
+}
+
+/* App container creates breathing room */
+.app-container{
+  max-width:1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+/* Hero section */
+.hero{
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), transparent 60%);
+  border-radius: calc(var(--radius) + 4px);
+  padding:2rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow-1);
+  display:flex;
+  align-items:center;
+  gap:1rem;
+}
+.hero h1{font-size:clamp(1.4rem,2.8vw,2.4rem);margin:0}
+.hero p{color:var(--muted);margin:0}
+
+/* Card utility */
+.card, .card-small{
+  background: linear-gradient(180deg, var(--card-bg), rgba(255,255,255,0.02));
+  border-radius: var(--radius);
+  padding:1.25rem;
+  border: 1px solid var(--glass-border);
+}
+.card{box-shadow: 0 8px 30px rgba(2,6,23,0.7);}
+.card-small{padding:0.75rem}
+
+/* Glass effect */
+.glass{
+  background: var(--glass-bg);
+  border: 1px solid rgba(255,255,255,0.05);
+  backdrop-filter: blur(6px) saturate(120%);
+}
+
+/* Buttons */
+.btn{
+  display:inline-flex;align-items:center;gap:0.6rem;
+  padding:0.55rem 0.9rem;border-radius:10px;border:0;cursor:pointer;font-weight:600;
+  transition:transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+}
+.btn:active{transform:translateY(1px)}
+.btn-primary{
+  background: linear-gradient(90deg,var(--accent), #ffb86b);
+  color:#0b1220; box-shadow: 0 6px 18px rgba(255,209,102,0.12);
+}
+.btn-secondary{
+  background: linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  color:var(--muted); border:1px solid rgba(255,255,255,0.04);
+}
+.btn-ghost{background:transparent;color:var(--muted)}
+
+/* Accent small badge */
+.badge{
+  display:inline-block;padding:0.18rem 0.5rem;border-radius:999px;font-size:0.75rem;font-weight:700;color:#0b1220;background:var(--accent);
+}
+
+/* Images and avatars */
+img, .avatar img{max-width:100%;height:auto;border-radius:8px;display:block}
+.logo-image{height:48px;object-fit:cover;border-radius:8px}
+
+/* Job cards specific (used widely) */
+.job-card{
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+  border-radius: 10px;padding:1rem;border:1px solid rgba(255,255,255,0.03);
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+.job-card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(2,6,23,0.6)}
+.job-card h3{margin:0 0 0.4rem 0}
+.job-meta{color:var(--muted);font-size:0.9rem}
+
+/* Table refinements */
+.table-soft{background:transparent;border-collapse:collapse;width:100%}
+.table-soft th, .table-soft td{padding:0.6rem 0.8rem;text-align:left;border-bottom:1px solid rgba(255,255,255,0.03)}
+
+/* Small helper */
+.center{display:flex;align-items:center;justify-content:center}
+.row{display:flex;gap:1rem;align-items:center}
+
+/* Subtle entrance animation */
+.fade-in{animation:fadeIn .45s ease both}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* Responsive tweaks */
+@media (max-width:720px){
+  .hero{flex-direction:column;align-items:flex-start}
+  .app-container{padding:1rem}
+}
